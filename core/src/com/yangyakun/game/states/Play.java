@@ -7,11 +7,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.yangyakun.game.MyGdxGame;
 import com.yangyakun.game.handlers.GameStateManage;
+import com.yangyakun.game.handlers.MyContactListener;
 
 import static com.yangyakun.game.handlers.B2DVars.PPM;
 
@@ -30,11 +32,13 @@ public class Play extends GameState {
         /**
          * 创建世界
          */
-        world = new World(new Vector2(0,-9.81f),true);
+        world = new World(new Vector2(0,-4.81f),true);
         /**
          * 渲染器
          */
         box2DDebugRenderer = new Box2DDebugRenderer();
+
+        world.setContactListener(new MyContactListener());
 
         //region 创建地板
         //定义物体的属性
@@ -48,13 +52,13 @@ public class Play extends GameState {
         //创建一个多边形
         PolygonShape shape = new PolygonShape();
         //设置长方形
-        shape.setAsBox(50/ PPM,5/ PPM);
+        shape.setAsBox(500/ PPM,5/ PPM);
         //夹具的属性
         FixtureDef fixtureDef = new FixtureDef();
         //在夹具重设置图形
         fixtureDef.shape = shape;
         //刚体设置夹具
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef).setUserData("full");
         //endregion
 
         //region 设置动态刚体
@@ -67,9 +71,19 @@ public class Play extends GameState {
         shape.setAsBox(5/ PPM,5/ PPM);
         fixtureDef.shape = shape;
         //设置反弹力
-        fixtureDef.restitution=0.6f;
-        body.createFixture(fixtureDef);
+        fixtureDef.restitution=0.5f;
+        body.createFixture(fixtureDef).setUserData("box");
         //endregion
+
+        bodyDef.position.set(153/PPM,225/PPM);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bodyDef);
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(5/PPM);
+        fixtureDef.shape = circleShape;
+        fixtureDef.restitution=0.4f;
+        body.createFixture(fixtureDef).setUserData("circle");
 
         b2dCamera = new OrthographicCamera();
         //像素转换为米
