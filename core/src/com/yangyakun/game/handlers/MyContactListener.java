@@ -6,9 +6,15 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
+/**
+ * 监听dox2d 的碰撞检测
+ */
 public class MyContactListener implements ContactListener {
 
-
+    /**
+     * 开始碰撞
+     * @param contact
+     */
     @Override
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
@@ -16,6 +22,10 @@ public class MyContactListener implements ContactListener {
         System.out.println(fixtureA.getUserData()+"---beginContact--->"+fixtureB.getUserData()+System.currentTimeMillis());
     }
 
+    /**
+     * 结束碰撞
+     * @param contact
+     */
     @Override
     public void endContact(Contact contact) {
         String userDataA = (String) contact.getFixtureA().getUserData();

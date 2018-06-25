@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.yangyakun.game.MyGdxGame;
 import com.yangyakun.game.handlers.GameStateManage;
 import com.yangyakun.game.handlers.MyContactListener;
+import com.yangyakun.game.handlers.MyInput;
 
 import static com.yangyakun.game.handlers.B2DVars.PPM;
 
@@ -61,7 +62,7 @@ public class Play extends GameState {
         body.createFixture(fixtureDef).setUserData("full");
         //endregion
 
-        //region 设置动态刚体
+        //region 设置动态刚体  正方形
         bodyDef.position.set(160/ PPM,200/ PPM);
         //设置动态刚体
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -75,6 +76,7 @@ public class Play extends GameState {
         body.createFixture(fixtureDef).setUserData("box");
         //endregion
 
+        //region 创建动态刚体 圆
         bodyDef.position.set(153/PPM,225/PPM);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
@@ -84,6 +86,7 @@ public class Play extends GameState {
         fixtureDef.shape = circleShape;
         fixtureDef.restitution=0.4f;
         body.createFixture(fixtureDef).setUserData("circle");
+        //endregion
 
         b2dCamera = new OrthographicCamera();
         //像素转换为米
@@ -94,7 +97,13 @@ public class Play extends GameState {
 
     @Override
     public void handleInput() {
+        if(MyInput.isPress(MyInput.BUTTON1)){
+            System.out.println("z被按下");
+        }
 
+        if(MyInput.isPress(MyInput.BUTTON2)){
+            System.out.println("x被按下");
+        }
     }
 
     @Override
@@ -103,6 +112,9 @@ public class Play extends GameState {
          * 清屏操作
          */
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        handleInput();
+
         /**
          * 更新物理世界
          * dt 游戏渲染世界相同

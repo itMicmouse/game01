@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.yangyakun.game.handlers.GameStateManage;
+import com.yangyakun.game.handlers.MyInputProcessor;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -32,6 +33,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
     @Override
     public void create () {
+
+        Gdx.input.setInputProcessor(new MyInputProcessor());
+
         batch = new SpriteBatch();
 
         camera = new OrthographicCamera();
